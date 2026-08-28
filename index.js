@@ -43,7 +43,9 @@ app.post('/', (req, res) => {
     // In a real app, you would insert this into the DB here!
 
     // MUST return a 2xx status code to tell Pub/Sub "I got it!"
-    res.status(200).send('Message Processed successfully.');
+    // Force a failure for DLQ testing
+    console.error('SIMULATED FAILURE: Rejecting Pub/Sub message');
+    return res.status(500).send('Simulated Internal Server Error');
 
   } catch (error) {
     console.error('Error processing Pub/Sub message:', error);
